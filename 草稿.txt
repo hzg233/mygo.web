@@ -1,0 +1,43 @@
+ .talk-content::-webkit-scrollbar {
+	    display: none; /* Chrome, Safari and Opera */
+            width: 6px; /* 显示滚动条并设置宽度 */
+        }
+        
+        .talk-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+        }
+        
+        .talk-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+        
+        .talk-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.5);
+        }
+
+ .talk-section {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            overflow: hidden;
+            max-height: 400px; /* 设置最大高度 */
+            min-height: 300px; /* 设置最小高度 */
+        }
+        
+        .talk-content {
+            height: 100%;
+            max-height: 360px; /* 减去padding的高度 */
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: thin; /* Firefox - 显示细滚动条 */
+            scrollbar-color: rgba(0,0,0,0.3) transparent; /* Firefox滚动条颜色 */
+        }
+
+                    燈塚是MyGO!!乐队的<mark>主唱(Vo.)</mark>，拥有<em style='color:#9C27B0;'>出色的歌唱才华</em>和<u>富有感染力的舞台表现</u>。
+
+
+ data-description="<p style='line-height:1.8;text-indent:2em;'>曙音是MyGO!!乐队的<span style='background-color:#FFF9C4;'>吉他手(Gt.)</span>，<span style='font-weight:bold;'>技术精湛</span>，为乐队带来独特的音乐风格。</p>"
+                >

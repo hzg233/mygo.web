@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MyGO图片展示</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap"rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        /* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap"); */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            /* background-color: #f5f5f5; */
+            background: linear-gradient(#c5fcfd3b, #ffffff);
+            padding: 20px;
+        }
+        
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            height: 600px;
+            margin: 0 auto;
+            /* border: 2px solid #000; */
+            border-radius: 8px; /* 调整圆角 */
+            box-shadow: 
+                0 0 5px rgba(0, 0, 0, 0.1),
+                0 0 10px rgba(0, 0, 0, 0.1),
+                0 0 15px rgba(0, 0, 0, 0.1);/*添加阴影效果*/
+            
+            background-color: rgba(255, 255, 255, 0.8);
+            background-image: url('./assert/images/card_after_training(1).png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+
+            transition: background-image 0.5s ease-out; /* 添加背景图片过渡效果 */
+        }
+        
+        .image-display {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid#91e3e316 ; /* 右边框 */
+            min-height: 500px;
+        }
+        /* 展示图 */
+        .image-display img {
+            max-width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            transition: opacity 0.2s ease-out; /* 添加图片过渡效果 */
+        }
+        
+        .content-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Montserrat', 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        .title-section {
+            padding: 10px;
+            /* border-bottom: 2px solid #000; */
+        }
+        /* 标题 */
+        .title-box {
+            border: 0.1px groove;
+            border-radius: 6px; /* 调整圆角 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /*添加阴影效果*/
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+
+            font-size: 1.5em; /* 增加标题字体大小 */
+            color: #333; /* 设置标题颜色 */
+            /* font-family: 'Microsoft YaHei', sans-serif; 设置字体 */
+        }
+        
+        .title-box p {
+            transition: opacity 0.2s ease; /* 添加标题过渡效果 */
+        }
+        /* 主文本 */
+        .description-section {
+            padding: 20px;
+            height: 40%;
+            /* height: 30vh; */
+            flex-grow: 0;
+            /* border-bottom: 2px solid #000; */
+
+            font-size: 1.1em; /* 设置描述文本字体大小 */
+            line-height: 1.5; /* 设置行高 */
+            color: #555; /* 设置描述文本颜色 */
+            font-family: 'Microsoft YaHei', sans-serif; /* 设置字体 */
+        }
+        
+        .description-section p {
+            transition: opacity 0.2s ease; /* 添加描述过渡效果 */
+        }
+        
+        /* 渐入渐出 */
+        .fade-out {
+            opacity: 0;
+        }
+        
+        .fade-in {
+            opacity: 1;
+        }
+        
+        .thumbnails-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            height: 260px; /* 增加高度 */
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .thumbnail {
+            border: none; /* 移除边框 */
+            width: 19%; /* 略微增加宽度 */
+            height: 100%; /* 使用100%高度填充父容器 */
+            aspect-ratio: 1 / 3; /* 修改宽高比为1:3，更接近图片中的效果 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border-radius: 8px; /* 调整圆角 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 添加阴影效果 */
+        }
+        
+        /* 为每个缩略图添加不同的背景色 */
+        .thumbnail:nth-child(1) {
+            background-color: #FFDD88; /* 黄色 */
+        }
+        
+        .thumbnail:nth-child(2) {
+            background-color: #FF8899; /* 粉色 */
+        }
+        
+        .thumbnail:nth-child(3) {
+            background-color: #81D4FA; /* 蓝色 */
+        }
+        
+        .thumbnail:nth-child(4) {
+            background-color: #77DD77 ; /* 绿色 */
+            /* #77DD77  #A5D6A7 */
+        }
+        
+        .thumbnail:nth-child(5) {
+            background-color: #7777AA; /* 紫色 */
+            /* #9FA8DA */
+        }
+        
+        .thumbnail img {
+            width: 100%; /* 图片宽度100% */
+            height: 100%; /* 图片高度100% */
+            object-fit: cover; /* 确保图片覆盖整个区域 */
+        }
+        
+        .thumbnail:hover {
+            border-color: #68bff2;
+            transform: scale(1.07);
+        }
+        
+        .thumbnail.active {
+            border-color: #418de7;
+            box-shadow: 0 0 8px rgba(65, 141, 231, 0.6);
+        }
+        
+        .thumbnail img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .image-display {
+                border-right: none;
+                /* border-bottom: 2px solid #000; */
+            }
+        }
+        
+        /* 第二区域大容器样式 */
+        .carousel-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .carousel-wrapper {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            gap: 10px; /*设置子容器间距 */
+        }
+        
+        /* 轮播图区域 */
+        .carousel-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9; /*设置宽高比*/
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            /* height: 100%; */
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            /* height: 100%; */
+            height: auto;
+            /* object-fit: cover; */
+            align-items: center;
+        }
+        
+        /* 轮播图控制按钮 */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .carousel-prev {
+            left: 10px;
+        }
+        
+        .carousel-next {
+            right: 10px;
+        }
+        
+        /* 轮播图指示器 */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        /* Talk内容区域 */
+        .talk-section {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            overflow: hidden;
+            max-height: 450px; /* 设置最大高度 */
+            min-height: 200px; /* 设置最小高度 */
+        }
+        
+        .talk-content {
+            height: 100%;
+            max-height: 360px; /* 减去padding的高度 */
+            overflow-y: auto;
+            /* scrollbar-width: none; Firefox */
+            /* -ms-overflow-style: none; IE and Edge */
+            scrollbar-width: thin; /* Firefox - 显示细滚动条 */
+            scrollbar-color: rgba(0,0,0,0.3) transparent; /* Firefox滚动条颜色 */
+        }
+        
+        .talk-content::-webkit-scrollbar {
+            /* display: none; Chrome, Safari and Opera */
+            width: 6px; /* 显示滚动条并设置宽度 */
+        }
+        
+        .talk-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+        }
+        
+        .talk-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+        
+        .talk-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.5);
+        }
+        
+
+        .talk-item {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .talk-item.active {
+            display: block;
+        }
+        
+        .talk-header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .talk-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .talk-subtitle {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .talk-body {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .talk-message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .talk-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .talk-text {
+            flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: #444;
+        }
+        
+        .talk-speaker {
+            font-weight: bold;
+            color: #343838;
+            margin-bottom: 3px;
+        }
+        .ts-norml{
+            color: #343838;
+        }
+        .ts-anno{
+            flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            /* color:#dda0cb; */
+            color:#ff8899;
+        }
+        .ts-soyo{
+            flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color:#c88f8d;
+        }
+        .ts-tomori{
+            flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color:#a6c6df;
+        }
+        .ts-rana{
+            flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color:#77DD77 ;
+        }
+        .ts-taki{
+             flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color:#6d5174;
+        }
+
+        .ts-chuhua{
+             flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color:#f1ef4e;
+        }
+
+        .ts-saki{
+             flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color:#e92e40;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Footer样式 */
+        .footer {
+            background-color: #1a1a1a;
+            padding: 40px 0;
+            margin-top: 50px;
+            border-top: 2px solid #333;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-logo {
+            max-width: 200px;
+            height: auto;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-logo:hover {
+            opacity: 1;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .carousel-wrapper {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .carousel-section {
+                /* flex-direction: column; */
+                height: 300px;
+            }
+            
+            .talk-section {
+                /* flex-direction: column; */
+                height: 400px;
+            }
+            
+            .footer {
+                padding: 30px 0;
+                margin-top: 30px;
+            }
+            
+            .footer-logo {
+                max-width: 150px;
+            }
+        }
+        /* 浮窗球样式 */
+        .floating-ball {
+            position: fixed;
+            left: 20px;
+            top: 33.33%; /* 距离顶部1/3距离 */
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.5; /* 半透明 */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .floating-ball:hover {
+            opacity: 1; /* 鼠标悬停时不透明 */
+            animation: rotate360 2s linear infinite; /* 360度旋转动画 */
+        }
+        
+        .floating-ball img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        
+        @keyframes rotate360 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* 响应式设计 - 移动端调整浮窗球位置 */
+        @media (max-width: 768px) {
+            .floating-ball {
+                width: 50px;
+                height: 50px;
+                left: 15px;
+            }
+            
+            .floating-ball img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浮窗球 -->
+    <div class="floating-ball" onclick="window.open('./pages/Music/index.html', '_blank')">
+        <img src="./assert/images/base/512px-MyGO_icon.svg.png" alt="音乐播放器">
+    </div>
+    <div class="main-container">
+        <div class="image-display">
+            <img id="main-image" src="./assert/images/base/477px-Logo_mygo.svg.png" alt="MyGO主图">
+        </div>
+        <div class="content-section">
+            <div class="title-section">
+                <div class="title-box">
+                    <p>文字标题</p>
+                </div>
+            </div>
+            <div class="description-section">
+                <p></p>
+                <!-- <p style="margin-top: 15px;">ガールズバンド Vo.燈塚 Tomori / Gt.曙音 Anon / Gt.美奈 Rana / Ba.そよ Soyo / Dr.立希 Taki</p> -->
+            </div>
+            <div class="thumbnails-section">
+                <a class="thumbnail active" 
+                data-img="./assert/images/roles/other/trim_after_training(1).png" 
+                data-bg="./assert/images/roles/other/card_normal.png" 
+                data-title="<span style='color:#FF5722;'>长崎素世</span>" 
+                data-description="<p style='text-indent:2em;'>
+                    MyGO!!!!!的贝斯手，性格稳重。
+                    在学校里经常聆听大家的倾述，
+                    也会在别人遇到困难时提供帮助，
+                    是如同妈妈(真)一般备受信赖的存在。
+                    但在和乐队成员们相处时，她有时也会展现出在学校里不会示人的一面。
+            </p>"
+                >
+                    <img src="./assert/images/roles/trim_normal (1).png" alt="长崎素世">
+                </a>
+                <a class="thumbnail" 
+                data-img="./assert/images/roles/trim_after_training(2).png" 
+                data-bg="./assert/images/roles/card_after_training(2).png" 
+                data-title="<span style='color:#E91E63;'>千早爱音</span>" 
+                data-description="<p style='text-indent:2em;'>
+                    有着与生俱来的开朗性格与很强的社交能力，是个讨人喜欢的女孩子。
+                    中学时代在班上很受欢迎，担任学生会会长。原本计划去留学，但因为某些原因，
+                    最后转学到了羽丘女子学园。凭借积极的行动力，她成为了引领乐队前进的关键人物。
+                </p>"
+                >
+                    <img src="./assert/images/roles/trim_normal (2).png" alt="千早爱音">
+                </a>
+                <a class="thumbnail" 
+                data-img="./assert/images/roles/trim_after_training.png" 
+                data-bg="./assert/images/roles/card_after_training.png" 
+                data-title="<span style='color:#3F51B5;'>高松灯</span>" 
+                data-description="<p style='line-height:1.8;text-indent:2em;'>
+                    MyGO!!!!!的<mark>主唱</mark>，拥有独特的感性。
+                    喜欢收集心仪的物品，经常会去捡掉在路上的石头或树叶。
+                    她意识到自己的感觉和周围的人不一样，尽管这点让她有些介意，
+                    但她在学校里却是如同吉祥物一般的存在，备受大家的喜爱。
+                </p>"
+                >
+                    <img src="./assert/images/roles/trim_normal.png" alt="高松灯">
+                </a>
+                <a class="thumbnail" 
+                data-img="./assert/images/roles/other/trim_after_training(2).png" 
+                data-bg="./assert/images/roles/other/card_normal(2).png" 
+                data-title="<span style='color:#4CAF50; font-style:italic;'>要乐奈</span>" 
+                data-description="<p style='text-indent:2em;'>
+                    凭直觉行事，拥有自由随性的个性。
+                    对待喜爱和讨厌的事物反差很强烈，感兴趣的事会全情投入，不感兴趣的事则会完全忽视。
+                    喜欢自我主张强烈的人。因为从小在音乐环境中成长，所以演奏的技艺甚至不亚于职业乐手。
+                </p>"
+                >
+                    <img src="./assert/images/roles/trim_normal (3).png" alt="要乐奈">
+                </a>
+                <a class="thumbnail" 
+                data-img="./assert/images/roles/other/trim_after_training.png" 
+                data-bg="./assert/images/roles/other/card_normal(3).png"
+                data-title="<span style='color:#673AB7; letter-spacing:2px;'>立希</span>" 
+                data-description="<p style='text-indent:2em;'>
+                    性格非常自立，喜欢独来独往。由于个性强烈且态度冷漠，经常和周围的人发生冲突，
+                    但也有着一旦认可对手，便会坚定地追随对方的一面。虽然目前在LIVEHOUSE『RiNG』打工，
+                    但似乎还是不太擅长接待客人。
+                </p>"
+                >
+                    <img src="./assert/images/roles/trim_normal (4).png" alt="立希">
+                </a>
+            </div>
+        </div>
+    </div>
+
+<!-- 第二块区域 -->
+     <!-- 轮播图和Talk容器 -->
+     <div class="carousel-container">
+        <div class="carousel-wrapper">
+            <!-- 轮播图区域 -->
+            <div class="carousel-section">
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\愛音模糊.jpg" alt="第一次拍照">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\card_moresakura.png" alt="樱花赏">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\card_play.png" alt="抽鬼牌">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\card_catsamll.png" alt="要乐奈小时候">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\card_normal.png" alt="双人自拍">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\[無詞]愛音到台前彈吉他.jpg" alt="爱音台前">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\[無詞]愛音拋媚眼.jpg" alt="爱音媚眼">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\[無詞]愛音與樂奈彈吉他.jpg" alt="爱音乐奈">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\[無詞]樂奈彈吉他.jpg" alt="乐奈翘腿">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\[無詞]立希看愛音.jpg" alt="立希看爱音">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\踏足進入那不曾間斷的不安(厭世爽世).jpg" alt="素世眼睛">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./assert\images\roles\other\[無詞]小祥.jpg" alt="祥子乱入">
+                    </div>
+                    
+                </div>
+                
+                <!-- 轮播图控制按钮 -->
+                <button class="carousel-nav carousel-prev" id="carousel-prev">‹</button>
+                <button class="carousel-nav carousel-next" id="carousel-next">›</button>
+                
+                <!-- 轮播图指示器 -->
+                <div class="carousel-indicators" id="carousel-indicators">
+                    <div class="carousel-indicator active" data-slide="0"></div>
+                    <div class="carousel-indicator" data-slide="1"></div>
+                    <div class="carousel-indicator" data-slide="2"></div>
+                    <div class="carousel-indicator" data-slide="3"></div>
+                    <div class="carousel-indicator" data-slide="4"></div>
+                    <div class="carousel-indicator" data-slide="5"></div>
+                    <div class="carousel-indicator" data-slide="6"></div>
+                    <div class="carousel-indicator" data-slide="7"></div>
+                    <div class="carousel-indicator" data-slide="8"></div>
+                    <div class="carousel-indicator" data-slide="9"></div>
+                    <div class="carousel-indicator" data-slide="10"></div>
+                    <div class="carousel-indicator" data-slide="11"></div>
+                </div>
+            </div>
+            
+            <!-- Talk内容区域 -->
+            <div class="talk-section">
+                <div class="talk-content" id="talk-content">
+
+                    <!-- Talk模板,这里是方便记忆 -->
+                    <!-- <div class="talk-item active" data-slide="0">
+                        <div class="talk-header">
+                            <div class="talk-title">长崎素世的日常</div>
+                            <div class="talk-subtitle">贝斯手的练习时光</div>
+                        </div>
+
+                        <div class="talk-body">
+
+                            <div class="talk-message">
+                                <img src="./assert/images/roles/trim_normal (1).png" alt="素世" class="talk-avatar">
+                                <div class="talk-text">
+                                    <div class="talk-speaker">素世</div>
+                                    为什么要准备热身呢............我要上去打拳不成嘛............
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div> -->
+                    <!-- Talk内容项 -->
+                    <div class="talk-item active" data-slide="0">
+                        <!-- <div class="talk-header">
+                            <div class="talk-title">长崎素世的日常</div>
+                            <div class="talk-subtitle">贝斯手的练习时光</div>
+                        </div> -->
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                    这是在我家拍照的时候......
+                                </div>
+                            </div>
+                            <div class="talk-message">                 
+                                <div class="ts-anno">
+                                    唉，那时候想重拍一张嘛，结果你们都不愿意，我都糊掉了ㄒoㄒ
+                                </div>
+                            </div>
+                            <div class="talk-message">                            
+                                <div class="ts-taki">                             
+                                    这不也挺好的。
+                                </div>
+                            </div>
+                            <div class="talk-message">   
+                                <div class="ts-tomori">
+                                    爱音这样我也喜欢！
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   小灯谢啦~现在会看其实也挺有趣的嘛~
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                  还是有很多机会吧，大不了待会给你拍一张。看下一张吧。
+                                </div>
+                            </div>              
+                        </div>
+                    </div>
+                    
+                    <div class="talk-item" data-slide="1">
+                        <div class="talk-body">
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                   这些都是学校的前辈们啊，我记得是丸山前辈、松原前辈，还有......
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                    白鹭前辈，不仅是知名艺人，还是偶像团体Pastel＊Palettes的一员呢
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    是<a target="_blank" href="https://www.bilibili.com/video/BV1Qx4y1S7UP/?spm_id_from=333.1387.upload.video_card.click" class="ts-norml">赏花</a>的时候和前辈们拍的呢。前辈们人也很好，什么时候Mygo才能变成向她们一样受欢迎呢。
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                  只要你多多练习就行。
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                 rikki你真是的！这时候还说我~
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-rana">
+                                 抹茶巴菲！
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                 喂，野猫你不是刚吃完吗？！你还要？！
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-rana">
+                                 抹茶巴菲！！
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                 嘛，你就多照顾照顾嘛，乐奈这孩子现在很依赖你呢~
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                 你倒是好说....算了，我去。
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-rana">
+                                 (*^▽^*)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="talk-item" data-slide="2">
+                      
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    是那次<a target="_blank" href="https://www.bilibili.com/video/BV1Jy42187oc/?spm_id_from=333.1387.upload.video_card.click&vd_source=465e5e0341dfa844f65146b54fc84d0e" class="ts-norml">雨天</a>吧。
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-soyo">                                  
+                                   嗯......
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">                                  
+                                   小灯，你笑什么?
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-tomori">                                  
+                                   继续看下去吧，也多亏了小爱保存了很多回忆呢
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">                                  
+                                   嘿嘿下一张下一张
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="talk-item" data-slide="3">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    这是我特意找老奶奶要的一张！
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                   啊，是小乐奈那次啊，说实话没想到小乐奈也有这样的<a target="_blank" href="https://www.bilibili.com/video/BV1QBAzecEM1/?spm_id_from=333.1387.upload.video_card.click">一面</a>呢
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-rana">
+                                   那什么时候开Live！
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                   啊..
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                  很快了很快,这次live绝对会成功的
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                    <div class="talk-item" data-slide="4">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-tomori">
+                                   是小爱和素世呢
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   是和soyorin一起出去逛的时候拍的呢。
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                   是的呢
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="talk-item" data-slide="5">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    啊，这张挺好的
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="talk-item" data-slide="6">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    这张也是！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="talk-item" data-slide="7">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    这张很帅唉，果然练吉他的功夫没白费~
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-tomori">
+                                    小爱的吉他确实进步的很快呢
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                    这点确实————
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   rikki你终于夸我了！
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                  ......但是！爱音你还要多练！竟然这样那下次就要上强度了 ！
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                 唉！！！！！！
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="talk-item" data-slide="8">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-rana">
+                                    弹吉他，爽！
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="talk-item" data-slide="9">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                    ......
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    rikki对不起！
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                   唉，其实也没啥......
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="talk-item" data-slide="10">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                    soyorin你不介意吧?......
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                    ......
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-tomori">
+                                   (噗嗤)
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   这都是我同学拍的！！！不过soyorin当时为啥你这个表情啊......
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                   还不是因为有人喜出望外忘了动作 ~
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   对不起!下次会注意的！(双手合十)
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-tomori">
+                                  照片要看完了？
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                  诶？为什么还有一张？
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="talk-item" data-slide="11">
+                        <div class="talk-body">
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                    这是什么？粉毛你给我解释一下！
+                                </div>
+                            </div>
+                            
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   我也不知道啊！听我解释，我也不不知道为什么祥子的照片会在我这？
+                                </div>
+                            </div>
+                           
+                                
+                          
+                            <div class="talk-message"> 
+                                <div class="ts-chuhua">
+                                  因为是我干的
+                                </div>
+                            </div>
+                           
+                               
+                            <div class="talk-message">
+                                <div class="ts-tomori">
+                                   初华小姐！？
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                   三角同学？你怎么会在这里
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-chuhua">
+                                   这是个误会，千早同学抱歉了，你把照片删掉就行。
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-taki">
+                                   这都什么跟什么.....
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   嘛嘛，也没什么的，删掉就好了吧（其实留着也行）
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-chuhua">
+                                   嗯，打扰各位了。
+                                </div>
+                            </div>
+                            <div class="talk-message">
+                                <div class="ts-soyo">
+                                  好奇怪......
+                                </div>
+                            </div>
+
+                            <div class="talk-message">
+                                <div class="ts-anno">
+                                   那么回忆完成！
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer区域 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="./assert/images/base/477px-Logo_mygo.svg.png" alt="MyGO!!!!! Logo" class="footer-logo">
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainImage = document.getElementById('main-image');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainContainer = document.querySelector('.main-container');
+            const titleElement = document.querySelector('.title-box p');
+            const descriptionElement = document.querySelector('.description-section p:first-child');
+            
+            // 初始化时设置第一个缩略图对应的图片、背景、标题和介绍
+            if(thumbnails.length > 0) {
+                const firstImgSrc = thumbnails[0].getAttribute('data-img');
+                const firstBgSrc = thumbnails[0].getAttribute('data-bg');
+                const firstTitle = thumbnails[0].getAttribute('data-title');
+                const firstDescription = thumbnails[0].getAttribute('data-description');
+                
+                mainImage.src = firstImgSrc;
+                
+                if(firstBgSrc) {
+                    mainContainer.style.backgroundImage = `url('${firstBgSrc}')`;
+                }
+                
+                if(firstTitle) {
+                    titleElement.innerHTML = firstTitle; // 使用innerHTML代替textContent以支持HTML标签
+                }
+                
+                if(firstDescription) {
+                    descriptionElement.innerHTML = firstDescription; // 使用innerHTML代替textContent以支持HTML标签
+                }
+            }
+            
+            // 为每个缩略图添加点击事件
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // 如果已经是活动状态的缩略图，不执行任何操作
+                    if(this.classList.contains('active')) {
+                        return;
+                    }
+                    
+                    // 获取数据
+                    const imgSrc = this.getAttribute('data-img');
+                    const bgSrc = this.getAttribute('data-bg');
+                    const title = this.getAttribute('data-title');
+                    const description = this.getAttribute('data-description');
+                    
+                    // 添加淡出效果
+                    mainImage.classList.add('fade-out');
+                    titleElement.classList.add('fade-out');
+                    descriptionElement.classList.add('fade-out');
+                    
+                    // 使用setTimeout延迟更新内容，等待淡出效果完成
+                    setTimeout(() => {
+                        // 更新主图片
+                        mainImage.src = imgSrc;
+                        
+                        // 更新主容器背景
+                        if(bgSrc) {
+                            mainContainer.style.backgroundImage = `url('${bgSrc}')`;
+                        }
+                        
+                        // 更新标题
+                        if(title) {
+                            titleElement.innerHTML = title;
+                        }
+                        
+                        // 更新介绍
+                        if(description) {
+                            descriptionElement.innerHTML = description;
+                        }
+                        
+                        // 添加淡入效果
+                        setTimeout(() => {
+                            mainImage.classList.remove('fade-out');
+                            titleElement.classList.remove('fade-out');
+                            descriptionElement.classList.remove('fade-out');
+                        }, 50);
+                        
+                        // 更新活动状态
+                        thumbnails.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                    }, 200); // 500毫秒等于CSS中设置的过渡时间
+                });    
+            });
+        });
+        
+
+
+        // 轮播图功能
+        class Carousel {
+            constructor() {
+                this.currentSlide = 0;
+                this.totalSlides = 12;
+                this.carouselTrack = document.getElementById('carousel-track');
+                this.indicators = document.querySelectorAll('.carousel-indicator');
+                this.talkItems = document.querySelectorAll('.talk-item');
+                this.prevBtn = document.getElementById('carousel-prev');
+                this.nextBtn = document.getElementById('carousel-next');
+                
+                this.init();
+            }
+            
+            init() {
+                // 绑定事件
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                
+                // 绑定指示器点击事件
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+                
+                // 自动播放（可选）
+                // this.startAutoPlay();
+            }
+            
+            updateCarousel() {
+                // 更新轮播图位置
+                const translateX = -this.currentSlide * 100;
+                this.carouselTrack.style.transform = `translateX(${translateX}%)`;
+                
+                // 更新指示器状态
+                this.indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentSlide);
+                });
+                
+                // 更新talk内容
+                this.updateTalkContent();
+            }
+            
+            updateTalkContent() {
+                this.talkItems.forEach((item, index) => {
+                    item.classList.toggle('active', index === this.currentSlide);
+                });
+            }
+            
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.updateCarousel();
+            }
+            
+            prevSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.updateCarousel();
+            }
+            
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.updateCarousel();
+            }
+            
+            startAutoPlay() {
+                // 每5秒自动切换（可选功能）
+                setInterval(() => {
+                    this.nextSlide();
+                }, 5000);
+            }
+        }
+        
+        // 初始化轮播图
+        const carousel = new Carousel();
+    </script>
+
+   
+ </body>
+</html>

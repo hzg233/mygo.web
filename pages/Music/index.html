@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bocchi the Rock! 音乐播放器</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/jpg" href="../../assert/images/roles/other/res037008_normal.png" />
+  </head>
+  <body>
+    <div class="Main">
+      <!-- 背景图片 -->
+      <div class="mainImage">
+        <img
+          id="backgroundImage"
+          src="../../assert/images/roles/other/res037008_normal.png"
+          alt="Background"
+        />
+      </div>
+
+      <!-- 主时钟 -->
+      <div class="mainClock" id="mainClock">
+        <div id="timeDisplay">00:00</div>
+        <div class="mainSecond" id="secondDisplay">00</div>
+      </div>
+
+      <!-- 导航设置按钮 -->
+      <div class="navigation" id="navigationBtn">
+        <img src="./icons/darksetting.png" alt="Settings" />
+      </div>
+
+      <!-- 选项栏 -->
+      <div class="optionBar" id="optionBar" style="display: none">
+        <div class="optionIcon" id="backgroundToggle">
+          <img
+            src="./icons/darkbackground.png"
+            alt="Background Toggle"
+          />
+        </div>
+        <div class="optionIcon" id="clockToggle">
+          <img src="./icons/darkclock.png" alt="Clock Toggle" />
+        </div>
+        <div class="optionIcon" id="playerToggle">
+          <img src="./icons/darkheadphones.png" alt="Player Toggle" />
+        </div>
+        <div class="optionIcon" id="playlistToggle">
+          <img src="./icons/playlist.png" alt="Playlist Toggle" />
+        </div>
+        <div class="optionIcon" id="soundToggle">
+          <img src="./icons/darksound.png" alt="Sound Toggle" />
+        </div>
+      </div>
+
+      <!-- 音乐播放器 -->
+      <div class="player" id="musicPlayer">
+        <p id="songTitle">选择一首歌曲</p>
+        <div class="player-controls">
+          <img
+            class="audioIcon"
+            id="shuffleBtn"
+            src="./icons/shuffle.png"
+            alt="Shuffle"
+          />
+          <img
+            class="audioIcon"
+            id="prevBtn"
+            src="./icons/backward.png"
+            alt="Previous"
+          />
+          <img
+            class="audioIcon"
+            id="playPauseBtn"
+            src="./icons/play.png"
+            alt="Play/Pause"
+          />
+          <img
+            class="audioIcon"
+            id="nextBtn"
+            src="./icons/forward.png"
+            alt="Next"
+          />
+          <img
+            class="audioIcon"
+            id="replayBtn"
+            src="./icons/replay.png"
+            alt="Replay"
+          />
+        </div>
+        <input
+          type="range"
+          class="audio-progress"
+          id="progressBar"
+          min="0"
+          max="100"
+          value="0"
+        />
+        <div class="volume-controls">
+          <img
+            class="audioIcon"
+            id="volumeDown"
+            src="./icons/volumeMinus.png"
+            alt="Volume Down"
+          />
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" />
+          <img
+            class="audioIcon"
+            id="volumeUp"
+            src="./icons/volumePlus.png"
+            alt="Volume Up"
+          />
+        </div>
+        <audio id="audioPlayer" preload="metadata"></audio>
+      </div>
+
+      <!-- 播放列表 -->
+      <div class="playlist" id="playlist">
+        <div class="playlistNavigation">
+          <p class="playlist-tab active" data-tab="songs">歌曲</p>
+          <p class="playlist-tab" data-tab="albums">专辑</p>
+        </div>
+        <div class="playlist-container">
+          <div class="playlist-item-container">
+            <div class="playlistItemWrapper">
+              <div id="songsList" class="playlist-content active">
+                <!-- 歌曲列表将通过JavaScript动态生成 -->
+              </div>
+              <div id="albumsList" class="playlist-content">
+                <!-- 专辑列表 -->
+                <div class="playlistItem" data-album="bocchi-album">
+                  <img src="./icons/08.jpg" alt="Album Cover" />
+                  <span>
+                    Null
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="playlist-scroll">
+            <img
+              class="playlist-scroll-img"
+              id="scrollUp"
+              src="./icons/upBar.png"
+              alt="Scroll Up"
+            />
+            <img
+              class="playlist-scroll-img"
+              id="scrollDown"
+              src="./icons/downBar.png"
+              alt="Scroll Down"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
