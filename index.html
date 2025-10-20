@@ -16,7 +16,10 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
-        
+        .thick-strike{
+            text-decoration:line-through;
+            text-decoration-thickness:3px;
+        }
         body {
             /* background-color: #f5f5f5; */
             background: linear-gradient(#c5fcfd3b, #ffffff);
@@ -609,7 +612,7 @@
                 <a class="thumbnail" 
                 data-img="./assert/images/roles/trim_after_training.png" 
                 data-bg="./assert/images/roles/card_after_training.png" 
-                data-title="<span style='color:#3F51B5;'><s>咕咕嘎嘎</s>高松灯</span>" 
+                data-title="<span style='color:#3F51B5;'><span class = 'thick-strike'>咕咕嘎嘎</span>高松灯</span>" 
                 data-description="<p style='line-height:1.8;text-indent:2em;'>
                     MyGO!!!!!的<s>企鹅</s><mark>主唱</mark>，拥有独特的感性。
                     喜欢收集心仪的物品，经常会去捡掉在路上的石头或树叶。
