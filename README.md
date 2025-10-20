@@ -1,5 +1,9 @@
 # MyGO!!!!! 主题网站
-
+## 重要说明
++ 本项目基于**Lunasia38/MyGoPicture**项目，作微小修改而来，仅供个人学习使用
++ 如有侵权，联系我删除
++ **联系方式：hzg233@gmail.com**
+# 以下是原作者markdown
 ##
 [Lunasia38.github.io/MyGoPicture](https://github.com/Lunasia38/MyGoPicture
 
